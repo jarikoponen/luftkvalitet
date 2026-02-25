@@ -16,7 +16,11 @@ import FactCallout from "./components/education/FactCallout";
 import StationSelector from "./components/dashboard/StationSelector";
 import WeatherCard from "./components/dashboard/WeatherCard";
 import ExportButton from "./components/ui/ExportButton";
+import SpatialGrid from "./components/satellite/SpatialGrid";
+import ForecastChart from "./components/satellite/ForecastChart";
+import ModelComparison from "./components/satellite/ModelComparison";
 import useAirQuality from "./hooks/useAirQuality";
+import useOpenMeteo from "./hooks/useOpenMeteo";
 import { DEFAULT_STATION } from "./api/airQuality";
 
 export default function App() {
@@ -25,6 +29,7 @@ export default function App() {
   const [station, setStation] = useState(DEFAULT_STATION);
 
   const { data, chartData, latest, hourlyAvg, trends, heatmapData, loading, isDemo } = useAirQuality(timeRange, station);
+  const { gridSnapshot, forecastData, comparisonPoint } = useOpenMeteo();
 
   if (loading) {
     return (
@@ -103,6 +108,10 @@ export default function App() {
         <HourlyPattern hourlyAvg={hourlyAvg} />
 
         <Heatmap heatmapData={heatmapData} timeRange={timeRange} />
+
+        <SpatialGrid grid={gridSnapshot} />
+        <ForecastChart forecastData={forecastData} />
+        <ModelComparison comparisonPoint={comparisonPoint} sensorLatest={latest} />
 
         <Legend />
 
