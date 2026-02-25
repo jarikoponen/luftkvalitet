@@ -6,10 +6,14 @@ export default function HeroStatus({ latest }) {
   const nQ = getQuality(latest.no2);
 
   return (
-    <div className="g hero ai d1" style={{ background: oQ.gradient }}>
-      <div className="hface">{oQ.face}</div>
-      <div className="hlabel" style={{ color: oQ.color }}>{oQ.label}</div>
-      <div className="htip">{oQ.tip}</div>
+    <div className="g hero" style={{ background: oQ.gradient }}>
+      <div className="hero-top">
+        <div className="hface">{oQ.face}</div>
+        <div className="hero-status">
+          <div className="hlabel" style={{ color: oQ.color }}>{oQ.label}</div>
+          <div className="htip">{oQ.tip}</div>
+        </div>
+      </div>
       <div className="hvals">
         <div className="hv">
           <div className="hvt">PM10</div>

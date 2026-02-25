@@ -46,15 +46,16 @@ export default function App() {
 
         <StationSelector station={station} setStation={setStation} />
 
-        <WeatherCard />
-
         {isDemo && (
           <div className="demo ai d1">
             ℹ️ Visar <strong>simulerad data</strong> — API:et kunde inte nås just nu.
           </div>
         )}
 
-        <HeroStatus latest={latest} />
+        <div className="hero-weather-row ai d1">
+          <HeroStatus latest={latest} />
+          <WeatherCard />
+        </div>
 
         <div className="duo ai d2">
           <PollutantCard
