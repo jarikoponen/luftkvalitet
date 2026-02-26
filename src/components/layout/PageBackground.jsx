@@ -51,14 +51,11 @@ export default function PageBackground() {
           <linearGradient id="hNear" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#052e16" /><stop offset="100%" stopColor="#022c22" />
           </linearGradient>
-          <linearGradient id="meadow" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#064e3b" /><stop offset="100%" stopColor="#022c22" />
-          </linearGradient>
-          <linearGradient id="pathG" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#a3724e" stopOpacity="0" />
-            <stop offset="30%" stopColor="#a3724e" stopOpacity="0.25" />
-            <stop offset="70%" stopColor="#a3724e" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#a3724e" stopOpacity="0" />
+          <linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#0c4a6e" />
+            <stop offset="30%" stopColor="#0e7490" />
+            <stop offset="60%" stopColor="#155e75" />
+            <stop offset="100%" stopColor="#052e16" />
           </linearGradient>
         </defs>
 
@@ -119,7 +116,7 @@ export default function PageBackground() {
           <g><path d="M0,-2 Q4,-7 8,-2 Q12,-7 16,-2" /><animateTransform attributeName="transform" type="translate" values="600,160;650,148;600,160" dur="12s" repeatCount="indefinite" /></g>
         </g>
 
-        {/* Hills */}
+        {/* Far hills */}
         <path d="M0,560 Q150,460 300,510 Q450,430 600,490 Q750,420 900,480 Q1050,430 1200,470 Q1350,440 1440,500 L1440,900 L0,900Z" fill="url(#hFar)" opacity="0.7" />
         <g opacity="0.6">
           {[100,190,310,440,560,680,800,920,1060,1200,1330].map((x,i) => {
@@ -128,6 +125,7 @@ export default function PageBackground() {
           })}
         </g>
 
+        {/* Mid hills */}
         <path d="M0,640 Q120,560 250,610 Q400,540 550,600 Q700,530 850,590 Q1000,540 1150,580 Q1300,550 1440,610 L1440,900 L0,900Z" fill="url(#hMid)" opacity="0.8" />
         <g opacity="0.7">
           {[80,200,330,470,600,730,870,1000,1140,1280,1380].map((x,i) => {
@@ -136,72 +134,11 @@ export default function PageBackground() {
           })}
         </g>
 
+        {/* Near hills */}
         <path d="M0,720 Q100,660 200,700 Q350,640 500,690 Q650,630 800,680 Q950,640 1100,670 Q1250,650 1440,710 L1440,900 L0,900Z" fill="url(#hNear)" opacity="0.9" />
-        <path d="M0,780 Q200,755 400,775 Q600,750 800,770 Q1000,750 1200,765 Q1350,755 1440,775 L1440,900 L0,900Z" fill="url(#meadow)" />
 
-        {/* Cycling path */}
-        <path d="M0,810 Q200,795 400,808 Q600,795 800,805 Q1000,792 1200,802 Q1350,795 1440,808" fill="none" stroke="url(#pathG)" strokeWidth="5" strokeLinecap="round" />
-        <path d="M0,810 Q200,795 400,808 Q600,795 800,805 Q1000,792 1200,802 Q1350,795 1440,808" fill="none" stroke="#d4a574" strokeWidth="1" strokeDasharray="8 16" opacity="0.2" />
-
-        {/* Near big trees */}
-        <g>
-          {[{x:50,y:740,s:1.5},{x:170,y:750,s:1.2},{x:300,y:735,s:1.6},{x:1130,y:740,s:1.3},{x:1260,y:730,s:1.7}].map((t, i) => (
-            <g key={i} transform={`translate(${t.x}, ${t.y}) scale(${t.s})`} opacity="0.85">
-              <rect x="-3" y="0" width="6" height="24" rx="3" fill="#1a2e0a" />
-              <ellipse cx="0" cy="-6" rx="22" ry="26" fill="#14532d" />
-              <ellipse cx="0" cy="-14" rx="16" ry="19" fill="#166534" />
-              <ellipse cx="0" cy="-21" rx="10" ry="12" fill="#15803d" />
-              <ellipse cx="3" cy="-18" rx="4" ry="5" fill="#22c55e" opacity=".35" />
-            </g>
-          ))}
-        </g>
-
-        {/* Flowers */}
-        <g>
-          {[[100,818,"#f472b6"],[180,828,"#fbbf24"],[280,815,"#c084fc"],[370,826,"#fb923c"],[470,820,"#f472b6"],[560,830,"#fbbf24"],[660,816,"#c084fc"],[750,825,"#fb923c"],[850,818,"#f472b6"],[950,828,"#fbbf24"],[1050,814,"#c084fc"],[1150,824,"#fb923c"],[1260,820,"#f472b6"],[1360,828,"#fbbf24"]].map(([x,y,c],i) => (
-            <g key={i} opacity="0.55">
-              <line x1={x} y1={y} x2={x} y2={y+9} stroke="#22c55e" strokeWidth="1.5" />
-              <circle cx={x-2.5} cy={y-1} r="2.2" fill={c} /><circle cx={x+2.5} cy={y-1} r="2.2" fill={c} />
-              <circle cx={x} cy={y-3} r="2.2" fill={c} /><circle cx={x} cy={y-1} r="1.5" fill="#fef08a" />
-            </g>
-          ))}
-        </g>
-
-        {/* Cyclists */}
-        <g transform="translate(380, 790)"><Cyclist x={0} color="#a78bfa" /><animateTransform attributeName="transform" type="translate" values="200,793;500,787;800,793;500,787;200,793" dur="20s" repeatCount="indefinite" /></g>
-        <g transform="translate(700, 790)"><Cyclist x={0} color="#67e8f9" dir={-1} /><animateTransform attributeName="transform" type="translate" values="900,790;600,796;300,790;600,796;900,790" dur="24s" repeatCount="indefinite" /></g>
-        <g transform="translate(550, 792)"><Cyclist x={0} color="#fca5a5" /><animateTransform attributeName="transform" type="translate" values="100,795;450,788;800,795;450,788;100,795" dur="28s" repeatCount="indefinite" /></g>
-
-        {/* Butterflies */}
-        <g>
-          <g opacity="0.5">
-            <ellipse cx="-5" cy="0" rx="5" ry="3.5" fill="#f472b6" /><ellipse cx="5" cy="0" rx="5" ry="3.5" fill="#f472b6" />
-            <ellipse cx="-3.5" cy="2" rx="3.5" ry="2.5" fill="#f9a8d4" /><ellipse cx="3.5" cy="2" rx="3.5" ry="2.5" fill="#f9a8d4" />
-            <circle cx="0" cy="0" r="1" fill="#fce7f3" />
-            <animateTransform attributeName="transform" type="translate" values="350,650;390,630;370,660;340,640;350,650" dur="9s" repeatCount="indefinite" />
-          </g>
-          <g opacity="0.45">
-            <ellipse cx="-4" cy="0" rx="4.5" ry="3" fill="#c084fc" /><ellipse cx="4" cy="0" rx="4.5" ry="3" fill="#c084fc" />
-            <ellipse cx="-3" cy="1.5" rx="3" ry="2" fill="#e9d5ff" /><ellipse cx="3" cy="1.5" rx="3" ry="2" fill="#e9d5ff" />
-            <circle cx="0" cy="0" r=".8" fill="#faf5ff" />
-            <animateTransform attributeName="transform" type="translate" values="800,600;830,580;810,610;790,590;800,600" dur="11s" repeatCount="indefinite" />
-          </g>
-          <g opacity="0.4">
-            <ellipse cx="-4" cy="0" rx="4" ry="2.8" fill="#fbbf24" /><ellipse cx="4" cy="0" rx="4" ry="2.8" fill="#fbbf24" />
-            <circle cx="0" cy="0" r=".8" fill="#fef3c7" />
-            <animateTransform attributeName="transform" type="translate" values="600,550;630,530;610,560;590,540;600,550" dur="10s" repeatCount="indefinite" />
-          </g>
-        </g>
-
-        {/* Wind */}
-        <g stroke="white" strokeWidth="1.5" opacity="0.15" strokeLinecap="round" fill="none">
-          <path d="M100,300 Q150,294 200,300 Q230,294 260,300"><animateTransform attributeName="transform" type="translate" values="0,0;70,0;0,0" dur="7s" repeatCount="indefinite" /></path>
-          <path d="M650,270 Q690,264 730,270"><animateTransform attributeName="transform" type="translate" values="0,0;50,0;0,0" dur="6s" repeatCount="indefinite" /></path>
-          <path d="M1000,330 Q1040,324 1080,330 Q1100,324 1120,330"><animateTransform attributeName="transform" type="translate" values="0,0;40,0;0,0" dur="8s" repeatCount="indefinite" /></path>
-        </g>
-
-        {/* Moose */}
-        <g transform="translate(1390, 520)" opacity="0.85">
+        {/* Moose (on the far hills) */}
+        <g transform="translate(680, 520)" opacity="0.85">
           <ellipse cx="60" cy="50" rx="45" ry="30" fill="#5c3a1e" />
           <path d="M30,40 Q20,15 15,0 Q12,-10 10,-5" fill="#6b4226" stroke="#5c3a1e" strokeWidth="1" />
           <path d="M35,45 Q28,20 25,5 Q22,-5 18,-2" fill="#6b4226" />
@@ -222,11 +159,246 @@ export default function PageBackground() {
           </g>
           <path d="M8,-2 Q5,6 8,10 Q10,6 8,-2" fill="#6b4226" />
         </g>
+
+        {/* === City — left === */}
+        <g>
+          {/* Falu red house */}
+          <rect x="15" y="655" width="36" height="110" rx="1" fill="#a83a2a" />
+          <rect x="15" y="655" width="36" height="4" fill="#8b2f22" />
+          {/* Yellow ochre */}
+          <rect x="57" y="638" width="28" height="127" rx="1" fill="#d4a520" />
+          <rect x="57" y="638" width="28" height="4" fill="#b8901a" />
+          {/* White/cream wide */}
+          <rect x="91" y="665" width="38" height="100" rx="1" fill="#f0e8d0" />
+          {/* Falu red tall */}
+          <rect x="135" y="645" width="24" height="120" rx="1" fill="#c4463a" />
+          <rect x="135" y="645" width="24" height="4" fill="#a33a30" />
+          {/* Cream */}
+          <rect x="165" y="672" width="28" height="93" rx="1" fill="#ede6d3" />
+          {/* Yellow */}
+          <rect x="199" y="655" width="26" height="110" rx="1" fill="#d4a520" />
+          <rect x="199" y="655" width="26" height="4" fill="#b8901a" />
+          {/* Church tower — stone */}
+          <rect x="231" y="625" width="18" height="140" rx="1" fill="#bfae90" />
+          <polygon points="240,607 228,630 252,630" fill="#6b5540" />
+          <line x1="240" y1="594" x2="240" y2="607" stroke="#6b5540" strokeWidth="2.5" />
+          <line x1="234" y1="601" x2="246" y2="601" stroke="#6b5540" strokeWidth="2" />
+          {/* White house */}
+          <rect x="255" y="670" width="28" height="95" rx="1" fill="#f5f0e0" />
+          {/* Falu red small */}
+          <rect x="289" y="685" width="22" height="80" rx="1" fill="#a83a2a" />
+
+          {/* Rooftops — dark gray/slate */}
+          <polygon points="13,655 33,638 55,655" fill="#4a4a4a" />
+          <polygon points="55,638 71,622 89,638" fill="#5a4a3a" />
+          <polygon points="89,665 110,648 133,665" fill="#4a4a4a" />
+          <polygon points="133,645 147,628 163,645" fill="#5a4a3a" />
+          <polygon points="163,672 179,657 197,672" fill="#4a4a4a" />
+          <polygon points="197,655 212,640 229,655" fill="#5a4a3a" />
+          <polygon points="253,670 269,655 287,670" fill="#4a4a4a" />
+          <polygon points="287,685 300,672 315,685" fill="#5a4a3a" />
+
+          {/* Windows */}
+          <g fill="#fef9c3" opacity="0.85">
+            {/* Red house 1 */}
+            <rect x="22" y="668" width="5" height="6" rx="0.5" /><rect x="34" y="668" width="5" height="6" rx="0.5" />
+            <rect x="22" y="682" width="5" height="6" rx="0.5" /><rect x="34" y="682" width="5" height="6" rx="0.5" />
+            <rect x="22" y="696" width="5" height="6" rx="0.5" /><rect x="34" y="696" width="5" height="6" rx="0.5" />
+            <rect x="22" y="710" width="5" height="6" rx="0.5" /><rect x="34" y="710" width="5" height="6" rx="0.5" />
+            {/* Yellow 1 */}
+            <rect x="63" y="650" width="5" height="6" rx="0.5" /><rect x="74" y="650" width="5" height="6" rx="0.5" />
+            <rect x="63" y="664" width="5" height="6" rx="0.5" /><rect x="74" y="664" width="5" height="6" rx="0.5" />
+            <rect x="63" y="678" width="5" height="6" rx="0.5" /><rect x="74" y="678" width="5" height="6" rx="0.5" />
+            <rect x="63" y="692" width="5" height="6" rx="0.5" /><rect x="74" y="692" width="5" height="6" rx="0.5" />
+            <rect x="63" y="706" width="5" height="6" rx="0.5" /><rect x="74" y="706" width="5" height="6" rx="0.5" />
+            {/* White wide */}
+            <rect x="99" y="678" width="5" height="6" rx="0.5" /><rect x="110" y="678" width="5" height="6" rx="0.5" /><rect x="121" y="678" width="5" height="6" rx="0.5" />
+            <rect x="99" y="692" width="5" height="6" rx="0.5" /><rect x="110" y="692" width="5" height="6" rx="0.5" /><rect x="121" y="692" width="5" height="6" rx="0.5" />
+            <rect x="99" y="706" width="5" height="6" rx="0.5" /><rect x="110" y="706" width="5" height="6" rx="0.5" /><rect x="121" y="706" width="5" height="6" rx="0.5" />
+            {/* Red tall */}
+            <rect x="141" y="658" width="4" height="5" rx="0.5" /><rect x="151" y="658" width="4" height="5" rx="0.5" />
+            <rect x="141" y="670" width="4" height="5" rx="0.5" /><rect x="151" y="670" width="4" height="5" rx="0.5" />
+            <rect x="141" y="682" width="4" height="5" rx="0.5" /><rect x="151" y="682" width="4" height="5" rx="0.5" />
+            <rect x="141" y="694" width="4" height="5" rx="0.5" /><rect x="151" y="694" width="4" height="5" rx="0.5" />
+            {/* Cream */}
+            <rect x="172" y="685" width="5" height="6" rx="0.5" /><rect x="183" y="685" width="5" height="6" rx="0.5" />
+            <rect x="172" y="699" width="5" height="6" rx="0.5" /><rect x="183" y="699" width="5" height="6" rx="0.5" />
+            <rect x="172" y="713" width="5" height="6" rx="0.5" /><rect x="183" y="713" width="5" height="6" rx="0.5" />
+            {/* Yellow 2 */}
+            <rect x="205" y="668" width="5" height="6" rx="0.5" /><rect x="215" y="668" width="5" height="6" rx="0.5" />
+            <rect x="205" y="682" width="5" height="6" rx="0.5" /><rect x="215" y="682" width="5" height="6" rx="0.5" />
+            <rect x="205" y="696" width="5" height="6" rx="0.5" /><rect x="215" y="696" width="5" height="6" rx="0.5" />
+            {/* Church */}
+            <rect x="236" y="638" width="4" height="5" rx="0.5" />
+            <rect x="236" y="652" width="4" height="5" rx="0.5" />
+            <rect x="236" y="666" width="4" height="5" rx="0.5" />
+            <rect x="236" y="680" width="4" height="5" rx="0.5" />
+            {/* White house */}
+            <rect x="261" y="682" width="5" height="6" rx="0.5" /><rect x="272" y="682" width="5" height="6" rx="0.5" />
+            <rect x="261" y="696" width="5" height="6" rx="0.5" /><rect x="272" y="696" width="5" height="6" rx="0.5" />
+            {/* Red small */}
+            <rect x="295" y="698" width="4" height="5" rx="0.5" /><rect x="304" y="698" width="4" height="5" rx="0.5" />
+            <rect x="295" y="712" width="4" height="5" rx="0.5" /><rect x="304" y="712" width="4" height="5" rx="0.5" />
+          </g>
+        </g>
+
+        {/* === City — right === */}
+        <g>
+          {/* Cream */}
+          <rect x="1130" y="660" width="30" height="105" rx="1" fill="#ede6d3" />
+          {/* Falu red */}
+          <rect x="1166" y="642" width="34" height="123" rx="1" fill="#c4463a" />
+          <rect x="1166" y="642" width="34" height="4" fill="#a33a30" />
+          {/* Yellow */}
+          <rect x="1206" y="665" width="24" height="100" rx="1" fill="#d4a520" />
+          <rect x="1206" y="665" width="24" height="4" fill="#b8901a" />
+          {/* Church tower */}
+          <rect x="1236" y="620" width="20" height="145" rx="1" fill="#bfae90" />
+          <polygon points="1246,603 1234,625 1258,625" fill="#6b5540" />
+          <line x1="1246" y1="590" x2="1246" y2="603" stroke="#6b5540" strokeWidth="2.5" />
+          <line x1="1240" y1="597" x2="1252" y2="597" stroke="#6b5540" strokeWidth="2" />
+          {/* White */}
+          <rect x="1262" y="652" width="30" height="113" rx="1" fill="#f0e8d0" />
+          {/* Falu red */}
+          <rect x="1298" y="670" width="28" height="95" rx="1" fill="#a83a2a" />
+          {/* Yellow wide */}
+          <rect x="1332" y="648" width="34" height="117" rx="1" fill="#d4a520" />
+          <rect x="1332" y="648" width="34" height="4" fill="#b8901a" />
+          {/* White */}
+          <rect x="1372" y="665" width="28" height="100" rx="1" fill="#f5f0e0" />
+          {/* Falu red */}
+          <rect x="1406" y="678" width="34" height="87" rx="1" fill="#c4463a" />
+          <rect x="1406" y="678" width="34" height="4" fill="#a33a30" />
+
+          {/* Rooftops */}
+          <polygon points="1128,660 1145,645 1162,660" fill="#4a4a4a" />
+          <polygon points="1164,642 1183,624 1202,642" fill="#5a4a3a" />
+          <polygon points="1204,665 1218,650 1234,665" fill="#4a4a4a" />
+          <polygon points="1260,652 1277,636 1294,652" fill="#5a4a3a" />
+          <polygon points="1296,670 1312,656 1330,670" fill="#4a4a4a" />
+          <polygon points="1330,648 1349,630 1370,648" fill="#5a4a3a" />
+          <polygon points="1370,665 1386,650 1404,665" fill="#4a4a4a" />
+          <polygon points="1404,678 1421,662 1442,678" fill="#5a4a3a" />
+
+          {/* Windows */}
+          <g fill="#fef9c3" opacity="0.85">
+            {/* Cream */}
+            <rect x="1137" y="673" width="5" height="6" rx="0.5" /><rect x="1148" y="673" width="5" height="6" rx="0.5" />
+            <rect x="1137" y="687" width="5" height="6" rx="0.5" /><rect x="1148" y="687" width="5" height="6" rx="0.5" />
+            <rect x="1137" y="701" width="5" height="6" rx="0.5" /><rect x="1148" y="701" width="5" height="6" rx="0.5" />
+            {/* Red 1 */}
+            <rect x="1174" y="655" width="5" height="6" rx="0.5" /><rect x="1188" y="655" width="5" height="6" rx="0.5" />
+            <rect x="1174" y="669" width="5" height="6" rx="0.5" /><rect x="1188" y="669" width="5" height="6" rx="0.5" />
+            <rect x="1174" y="683" width="5" height="6" rx="0.5" /><rect x="1188" y="683" width="5" height="6" rx="0.5" />
+            <rect x="1174" y="697" width="5" height="6" rx="0.5" /><rect x="1188" y="697" width="5" height="6" rx="0.5" />
+            {/* Yellow 1 */}
+            <rect x="1212" y="678" width="4" height="5" rx="0.5" /><rect x="1222" y="678" width="4" height="5" rx="0.5" />
+            <rect x="1212" y="692" width="4" height="5" rx="0.5" /><rect x="1222" y="692" width="4" height="5" rx="0.5" />
+            <rect x="1212" y="706" width="4" height="5" rx="0.5" /><rect x="1222" y="706" width="4" height="5" rx="0.5" />
+            {/* Church */}
+            <rect x="1242" y="634" width="4" height="5" rx="0.5" />
+            <rect x="1242" y="648" width="4" height="5" rx="0.5" />
+            <rect x="1242" y="662" width="4" height="5" rx="0.5" />
+            <rect x="1242" y="676" width="4" height="5" rx="0.5" />
+            <rect x="1242" y="690" width="4" height="5" rx="0.5" />
+            {/* White */}
+            <rect x="1269" y="665" width="5" height="6" rx="0.5" /><rect x="1281" y="665" width="5" height="6" rx="0.5" />
+            <rect x="1269" y="679" width="5" height="6" rx="0.5" /><rect x="1281" y="679" width="5" height="6" rx="0.5" />
+            <rect x="1269" y="693" width="5" height="6" rx="0.5" /><rect x="1281" y="693" width="5" height="6" rx="0.5" />
+            {/* Red 2 */}
+            <rect x="1305" y="683" width="5" height="6" rx="0.5" /><rect x="1316" y="683" width="5" height="6" rx="0.5" />
+            <rect x="1305" y="697" width="5" height="6" rx="0.5" /><rect x="1316" y="697" width="5" height="6" rx="0.5" />
+            <rect x="1305" y="711" width="5" height="6" rx="0.5" /><rect x="1316" y="711" width="5" height="6" rx="0.5" />
+            {/* Yellow wide */}
+            <rect x="1340" y="662" width="5" height="6" rx="0.5" /><rect x="1354" y="662" width="5" height="6" rx="0.5" />
+            <rect x="1340" y="676" width="5" height="6" rx="0.5" /><rect x="1354" y="676" width="5" height="6" rx="0.5" />
+            <rect x="1340" y="690" width="5" height="6" rx="0.5" /><rect x="1354" y="690" width="5" height="6" rx="0.5" />
+            <rect x="1340" y="704" width="5" height="6" rx="0.5" /><rect x="1354" y="704" width="5" height="6" rx="0.5" />
+            {/* White 2 */}
+            <rect x="1379" y="678" width="5" height="6" rx="0.5" /><rect x="1390" y="678" width="5" height="6" rx="0.5" />
+            <rect x="1379" y="692" width="5" height="6" rx="0.5" /><rect x="1390" y="692" width="5" height="6" rx="0.5" />
+            {/* Red 3 */}
+            <rect x="1413" y="692" width="5" height="6" rx="0.5" /><rect x="1426" y="692" width="5" height="6" rx="0.5" />
+            <rect x="1413" y="706" width="5" height="6" rx="0.5" /><rect x="1426" y="706" width="5" height="6" rx="0.5" />
+          </g>
+        </g>
+
+        {/* Trees between cities */}
+        <g>
+          {[{x:340,y:730,s:1.5},{x:440,y:738,s:1.2},{x:560,y:725,s:1.4},{x:680,y:735,s:1.1},{x:800,y:728,s:1.5},{x:920,y:734,s:1.2},{x:1040,y:730,s:1.4}].map((t, i) => (
+            <g key={i} transform={`translate(${t.x}, ${t.y}) scale(${t.s})`} opacity="0.85">
+              <rect x="-3" y="0" width="6" height="24" rx="3" fill="#1a2e0a" />
+              <ellipse cx="0" cy="-6" rx="22" ry="26" fill="#14532d" />
+              <ellipse cx="0" cy="-14" rx="16" ry="19" fill="#166534" />
+              <ellipse cx="0" cy="-21" rx="10" ry="12" fill="#15803d" />
+              <ellipse cx="3" cy="-18" rx="4" ry="5" fill="#22c55e" opacity=".35" />
+            </g>
+          ))}
+        </g>
+
+        {/* Quay / shore line */}
+        <rect x="0" y="762" width="1440" height="5" fill="#8b7355" opacity="0.7" />
+        <rect x="0" y="767" width="1440" height="2" fill="#6b5540" opacity="0.5" />
+
+        {/* === Water === */}
+        <rect x="0" y="769" width="1440" height="131" fill="url(#waterG)" />
+        {/* Reflections from buildings */}
+        <g opacity="0.15">
+          <rect x="20" y="770" width="290" height="60" rx="2" fill="#c4463a" />
+          <rect x="1130" y="770" width="310" height="60" rx="2" fill="#c4463a" />
+        </g>
+        {/* Sun reflection on water */}
+        <ellipse cx="720" cy="810" rx="280" ry="18" fill="#fde047" opacity="0.08" />
+        <ellipse cx="720" cy="810" rx="120" ry="8" fill="#fef9c3" opacity="0.1" />
+        {/* Waves */}
+        <g stroke="white" strokeWidth="1" fill="none" opacity="0.12" strokeLinecap="round">
+          <path d="M0,785 Q60,780 120,785 Q180,790 240,785 Q300,780 360,785 Q420,790 480,785 Q540,780 600,785 Q660,790 720,785 Q780,780 840,785 Q900,790 960,785 Q1020,780 1080,785 Q1140,790 1200,785 Q1260,780 1320,785 Q1380,790 1440,785">
+            <animateTransform attributeName="transform" type="translate" values="0,0;30,0;0,0" dur="6s" repeatCount="indefinite" />
+          </path>
+          <path d="M0,805 Q50,800 100,805 Q150,810 200,805 Q250,800 300,805 Q350,810 400,805 Q450,800 500,805 Q550,810 600,805 Q650,800 700,805 Q750,810 800,805 Q850,800 900,805 Q950,810 1000,805 Q1050,800 1100,805 Q1150,810 1200,805 Q1250,800 1300,805 Q1350,810 1400,805 Q1430,800 1440,802">
+            <animateTransform attributeName="transform" type="translate" values="0,0;-25,0;0,0" dur="8s" repeatCount="indefinite" />
+          </path>
+          <path d="M0,830 Q70,825 140,830 Q210,835 280,830 Q350,825 420,830 Q490,835 560,830 Q630,825 700,830 Q770,835 840,830 Q910,825 980,830 Q1050,835 1120,830 Q1190,825 1260,830 Q1330,835 1400,830 L1440,828">
+            <animateTransform attributeName="transform" type="translate" values="0,0;20,0;0,0" dur="10s" repeatCount="indefinite" />
+          </path>
+        </g>
+
+        {/* Cyclists on quay */}
+        <g transform="translate(380, 752)"><Cyclist x={0} color="#a78bfa" /><animateTransform attributeName="transform" type="translate" values="350,752;600,750;900,752;600,750;350,752" dur="20s" repeatCount="indefinite" /></g>
+        <g transform="translate(700, 752)"><Cyclist x={0} color="#67e8f9" dir={-1} /><animateTransform attributeName="transform" type="translate" values="800,750;550,752;300,750;550,752;800,750" dur="24s" repeatCount="indefinite" /></g>
+
+        {/* Butterflies */}
+        <g>
+          <g opacity="0.5">
+            <ellipse cx="-5" cy="0" rx="5" ry="3.5" fill="#f472b6" /><ellipse cx="5" cy="0" rx="5" ry="3.5" fill="#f472b6" />
+            <ellipse cx="-3.5" cy="2" rx="3.5" ry="2.5" fill="#f9a8d4" /><ellipse cx="3.5" cy="2" rx="3.5" ry="2.5" fill="#f9a8d4" />
+            <circle cx="0" cy="0" r="1" fill="#fce7f3" />
+            <animateTransform attributeName="transform" type="translate" values="350,620;390,600;370,630;340,610;350,620" dur="9s" repeatCount="indefinite" />
+          </g>
+          <g opacity="0.45">
+            <ellipse cx="-4" cy="0" rx="4.5" ry="3" fill="#c084fc" /><ellipse cx="4" cy="0" rx="4.5" ry="3" fill="#c084fc" />
+            <ellipse cx="-3" cy="1.5" rx="3" ry="2" fill="#e9d5ff" /><ellipse cx="3" cy="1.5" rx="3" ry="2" fill="#e9d5ff" />
+            <circle cx="0" cy="0" r=".8" fill="#faf5ff" />
+            <animateTransform attributeName="transform" type="translate" values="800,570;830,550;810,580;790,560;800,570" dur="11s" repeatCount="indefinite" />
+          </g>
+          <g opacity="0.4">
+            <ellipse cx="-4" cy="0" rx="4" ry="2.8" fill="#fbbf24" /><ellipse cx="4" cy="0" rx="4" ry="2.8" fill="#fbbf24" />
+            <circle cx="0" cy="0" r=".8" fill="#fef3c7" />
+            <animateTransform attributeName="transform" type="translate" values="600,520;630,500;610,530;590,510;600,520" dur="10s" repeatCount="indefinite" />
+          </g>
+        </g>
+
+        {/* Wind */}
+        <g stroke="white" strokeWidth="1.5" opacity="0.15" strokeLinecap="round" fill="none">
+          <path d="M100,300 Q150,294 200,300 Q230,294 260,300"><animateTransform attributeName="transform" type="translate" values="0,0;70,0;0,0" dur="7s" repeatCount="indefinite" /></path>
+          <path d="M650,270 Q690,264 730,270"><animateTransform attributeName="transform" type="translate" values="0,0;50,0;0,0" dur="6s" repeatCount="indefinite" /></path>
+          <path d="M1000,330 Q1040,324 1080,330 Q1100,324 1120,330"><animateTransform attributeName="transform" type="translate" values="0,0;40,0;0,0" dur="8s" repeatCount="indefinite" /></path>
+        </g>
       </svg>
 
       <div style={{
-        position: "fixed", bottom: 0, left: 0, right: 0, height: "55vh",
-        background: "linear-gradient(to bottom, rgba(5,46,22,0) 0%, rgba(5,46,22,0.6) 30%, rgba(5,46,22,0.88) 60%, rgba(5,46,22,0.96) 100%)",
+        position: "fixed", bottom: 0, left: 0, right: 0, height: "12vh",
+        background: "linear-gradient(to bottom, rgba(5,46,22,0) 0%, rgba(5,46,22,0.7) 100%)",
         pointerEvents: "none",
       }} />
     </div>
