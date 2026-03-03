@@ -5,13 +5,27 @@ import {
 import { TIME_RANGES } from "../../utils/aggregation";
 import { fmtTime, fmtDate } from "../../utils/formatters";
 import ChartTooltip from "./ChartTooltip";
+import UpdatedAt from "../ui/UpdatedAt";
+import InfoTooltip from "../ui/InfoTooltip";
 
-export default function TimeSeriesChart({ chartData, selType, setSelType, timeRange, setTimeRange }) {
+export default function TimeSeriesChart({ chartData, selType, setSelType, timeRange, setTimeRange, lastUpdated }) {
   const hours = TIME_RANGES.find(t => t.key === timeRange)?.hours || 24;
   const xF = d => hours <= 24 ? fmtTime(d) : fmtDate(d);
 
+  const showPm = selType === "both" || selType === "pm10";
+  const showNo2 = selType === "both" || selType === "no2";
+
+  // Ensure Y-axis always covers the highest active reference line
+  const minYMax = showPm && showNo2 ? 60 : showNo2 ? 60 : 50;
+  const yDomain = [0, dataMax => Math.max(dataMax * 1.1, minYMax * 1.15)];
+
   return (
     <div className="gs cbox ai d3">
+      <InfoTooltip
+        title="Tidsserie"
+        description="Historiska mätvärden för PM10 och NO₂ med gränsvärden markerade. Datan visar timmedelvärden från vald mätstation."
+        source="Sundsvalls kommun — Öppna data (CC-0)"
+      />
       <div className="ctop">
         <h2>📈 Utveckling</h2>
         <div className="cbs">
@@ -43,19 +57,21 @@ export default function TimeSeriesChart({ chartData, selType, setSelType, timeRa
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" vertical={false} />
             <XAxis dataKey="date" tickFormatter={xF} tick={{ fill: "#78716c", fontSize: 11 }} axisLine={{ stroke: "rgba(0,0,0,0.06)" }} tickLine={false} interval="preserveStartEnd" minTickGap={50} />
-            <YAxis tick={{ fill: "#78716c", fontSize: 11 }} axisLine={false} tickLine={false} width={36} />
+            <YAxis domain={yDomain} tick={{ fill: "#78716c", fontSize: 11 }} axisLine={false} tickLine={false} width={36} />
             <Tooltip content={<ChartTooltip />} />
-            {(selType === "both" || selType === "pm10") && <>
-              <ReferenceLine y={50} stroke="#ef4444" strokeDasharray="6 4" strokeOpacity={.35} label={{ value: "PM10 norm", fill: "#ef4444", fontSize: 10, position: "insideTopRight" }} />
+            {showPm && <>
+              <ReferenceLine y={50} stroke="#ef4444" strokeDasharray="6 4" strokeOpacity={.4} label={{ value: "PM Gränsvärde (50 µg/m³)", fill: "#ef4444", fontSize: 10, position: "insideTopRight" }} />
+              <ReferenceLine y={30} stroke="#f59e0b" strokeDasharray="4 3" strokeOpacity={.4} label={{ value: "PM Miljömål (30 µg/m³)", fill: "#f59e0b", fontSize: 10, position: "insideTopRight" }} />
               <Area type="monotone" dataKey="pm10" name="PM10" stroke="#0891b2" strokeWidth={2.5} fill="url(#gP)" dot={false} connectNulls />
             </>}
-            {(selType === "both" || selType === "no2") && <>
-              <ReferenceLine y={90} stroke="#f97316" strokeDasharray="6 4" strokeOpacity={.35} label={{ value: "NO₂ norm", fill: "#f97316", fontSize: 10, position: "insideTopRight" }} />
+            {showNo2 && <>
+              <ReferenceLine y={60} stroke="#f97316" strokeDasharray="6 4" strokeOpacity={.4} label={{ value: "NO₂ Dygnsmedelvärde (60 µg/m³)", fill: "#f97316", fontSize: 10, position: "insideTopRight" }} />
               <Area type="monotone" dataKey="no2" name="NO₂" stroke="#7c3aed" strokeWidth={2.5} fill="url(#gN)" dot={false} connectNulls />
             </>}
           </AreaChart>
         </ResponsiveContainer>
       </div>
+      <UpdatedAt date={lastUpdated} />
     </div>
   );
 }

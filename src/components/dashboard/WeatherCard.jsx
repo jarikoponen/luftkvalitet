@@ -1,4 +1,6 @@
 import useWeather from "../../hooks/useWeather";
+import UpdatedAt from "../ui/UpdatedAt";
+import InfoTooltip from "../ui/InfoTooltip";
 
 export default function WeatherCard() {
   const { weather, loading, error } = useWeather();
@@ -8,6 +10,11 @@ export default function WeatherCard() {
 
   return (
     <div className="g wcard ai d1">
+      <InfoTooltip
+        title="Väderdata"
+        description="Temperatur, vindstyrka och luftfuktighet från närmaste SMHI-station (Sundsvall-Timrå flygplats). Uppdateras var 10:e minut."
+        source="SMHI — Öppna data"
+      />
       <div className="wcard-title">Väder just nu</div>
       <div className="wcard-row">
         {weather.temperature != null && (
@@ -37,6 +44,7 @@ export default function WeatherCard() {
           ⚠️ <strong>Inversionsrisk</strong> — Kyla och vindstilla kan ge förhöjda halter
         </div>
       )}
+      <UpdatedAt date={weather.lastUpdated} />
     </div>
   );
 }

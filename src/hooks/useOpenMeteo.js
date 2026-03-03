@@ -8,10 +8,13 @@ export default function useOpenMeteo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [fetchedAt, setFetchedAt] = useState(null);
+
   const load = useCallback(async () => {
     try {
       const data = await fetchOpenMeteo();
       setRawData(data);
+      setFetchedAt(new Date().toISOString());
       setError(null);
     } catch (err) {
       console.warn("Open-Meteo fetch failed:", err.message);
@@ -31,5 +34,5 @@ export default function useOpenMeteo() {
   const forecastData = rawData?.forecast ?? [];
   const comparisonPoint = rawData?.centerCurrent ?? null;
 
-  return { gridSnapshot, forecastData, comparisonPoint, loading, error };
+  return { gridSnapshot, forecastData, comparisonPoint, fetchedAt, loading, error };
 }

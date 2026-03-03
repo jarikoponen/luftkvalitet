@@ -43,13 +43,13 @@ export function calcHourlyAvg(data) {
 }
 
 export function getLatest(data) {
-  let pm = null, no = null;
+  let pm = null, no = null, lastUpdated = null;
   for (let i = data.length - 1; i >= 0; i--) {
-    if (data[i].pm10 != null && pm == null) pm = data[i].pm10;
+    if (data[i].pm10 != null && pm == null) { pm = data[i].pm10; lastUpdated = data[i].date; }
     if (data[i].no2 != null && no == null) no = data[i].no2;
     if (pm != null && no != null) break;
   }
-  return { pm10: pm, no2: no };
+  return { pm10: pm, no2: no, lastUpdated };
 }
 
 export function calcTrends(data) {
@@ -112,5 +112,4 @@ export const TIME_RANGES = [
   { key: "24h", label: "24 tim", hours: 24 },
   { key: "4d", label: "4 dagar", hours: 96 },
   { key: "7d", label: "7 dagar", hours: 168 },
-  { key: "30d", label: "30 dagar", hours: 720 },
 ];

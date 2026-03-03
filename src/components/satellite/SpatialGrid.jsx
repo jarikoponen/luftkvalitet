@@ -4,6 +4,8 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { GRID_POINTS, STATION_CELLS } from "../../api/openMeteo";
 import { getQuality } from "../../utils/quality";
+import UpdatedAt from "../ui/UpdatedAt";
+import InfoTooltip from "../ui/InfoTooltip";
 
 /* Approximate real-world coordinates for each named location.
    CAMS data comes from a regular grid, but we display markers at the
@@ -68,13 +70,19 @@ function FitBounds() {
   return null;
 }
 
-export default function SpatialGrid({ grid }) {
+export default function SpatialGrid({ grid, fetchedAt }) {
   const [pollutant, setPollutant] = useState("pm10");
 
   if (!grid) return null;
 
   return (
     <div className="spatial-section ai d5">
+      <InfoTooltip
+        title="Satellitmodelldata"
+        description="Luftkvalitetsdata från CAMS (Copernicus Atmosphere Monitoring Service) med 11 km upplösning. Visar modellberäknade halter för hela Sundsvallsområdet."
+        source="CAMS / Copernicus — Open Data"
+        light
+      />
       <h2 className="st">Satellitvy — Sundsvallsområdet</h2>
       <p className="ss">CAMS-modelldata (11 km upplösning) visar luftkvaliteten i hela regionen</p>
       <div className="spatial-toggle">
@@ -151,6 +159,7 @@ export default function SpatialGrid({ grid }) {
           })}
         </MapContainer>
       </div>
+      <UpdatedAt date={fetchedAt} light />
     </div>
   );
 }

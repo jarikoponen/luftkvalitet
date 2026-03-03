@@ -12,7 +12,7 @@ function parseLatest(json) {
   const values = json?.value;
   if (!values?.length) return null;
   const last = values[values.length - 1];
-  return parseFloat(last.value);
+  return { value: parseFloat(last.value), timestamp: last.date != null ? new Date(last.date).toISOString() : null };
 }
 
 export async function fetchWeather() {
@@ -26,9 +26,11 @@ export async function fetchWeather() {
   );
 
   const weather = {};
+  let latestTimestamp = null;
   for (const r of results) {
     if (r.status === "fulfilled" && r.value.value != null) {
-      weather[r.value.key] = r.value.value;
+      weather[r.value.key] = r.value.value.value;
+      if (r.value.value.timestamp) latestTimestamp = r.value.value.timestamp;
     }
   }
 
@@ -37,6 +39,8 @@ export async function fetchWeather() {
     weather.wind != null &&
     weather.temperature < 0 &&
     weather.wind < 2;
+
+  weather.lastUpdated = latestTimestamp;
 
   return weather;
 }

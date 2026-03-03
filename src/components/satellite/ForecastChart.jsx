@@ -2,9 +2,11 @@ import { useState, useMemo } from "react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import { getQuality } from "../../utils/quality";
 import { fmtTime } from "../../utils/formatters";
+import UpdatedAt from "../ui/UpdatedAt";
+import InfoTooltip from "../ui/InfoTooltip";
 import ChartTooltip from "../charts/ChartTooltip";
 
-export default function ForecastChart({ forecastData }) {
+export default function ForecastChart({ forecastData, fetchedAt }) {
   const [pollutant, setPollutant] = useState("pm10");
   const [selectedDay, setSelectedDay] = useState(0);
 
@@ -51,6 +53,12 @@ export default function ForecastChart({ forecastData }) {
 
   return (
     <div className="forecast-section ai d5">
+      <InfoTooltip
+        title="5-dagars prognos"
+        description="Prognosdata från CAMS-modellen som visar förväntade halter av PM10 och NO₂ för de kommande 5 dagarna i Sundsvall Centrum."
+        source="CAMS / Copernicus — Open Data"
+        light
+      />
       <h2 className="st">5-dagars prognos</h2>
       <p className="ss">CAMS-modellens prognos f&ouml;r Sundsvall Centrum</p>
       <div className="spatial-toggle">
@@ -116,6 +124,7 @@ export default function ForecastChart({ forecastData }) {
           </ResponsiveContainer>
         </div>
       </div>
+      <UpdatedAt date={fetchedAt} light />
     </div>
   );
 }

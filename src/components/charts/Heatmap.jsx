@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getQuality } from "../../utils/quality";
+import InfoTooltip from "../ui/InfoTooltip";
 
 const DAYS = ["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"];
 
@@ -46,17 +47,16 @@ function HeatmapGrid({ matrix, label, color }) {
 export default function Heatmap({ heatmapData, timeRange }) {
   const hours = { "24h": 24, "4d": 96, "7d": 168, "30d": 720 }[timeRange] || 24;
 
-  if (hours < 168) {
-    return (
-      <div className="hm-section ai d5">
-        <h2 className="st">Veckomönster</h2>
-        <p className="ss">Välj minst 7 dagars data för att se veckomönstret som heatmap.</p>
-      </div>
-    );
-  }
+  if (hours < 168) return null;
 
   return (
     <div className="hm-section ai d5">
+      <InfoTooltip
+        title="Veckomönster"
+        description="Genomsnittliga halter per timme och veckodag, beräknat från 7 dagars mätdata. Visar typiska mönster i luftkvaliteten."
+        source="Sundsvalls kommun — Öppna data (CC-0)"
+        light
+      />
       <h2 className="st">Veckomönster</h2>
       <p className="ss">Genomsnittlig luftkvalitet per timme och veckodag</p>
       <div className="hm-duo">

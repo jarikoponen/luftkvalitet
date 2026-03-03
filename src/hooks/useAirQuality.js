@@ -45,8 +45,13 @@ export default function useAirQuality(timeRange = "24h", station = DEFAULT_STATI
     }
   }, [timeRange, station]);
 
+  const initialLoad = useRef(true);
+
   useEffect(() => {
-    setLoading(true);
+    if (initialLoad.current) {
+      setLoading(true);
+      initialLoad.current = false;
+    }
     fetchData();
     const iv = setInterval(fetchData, POLL_INTERVAL);
     return () => clearInterval(iv);
