@@ -1,8 +1,0 @@
-services:
-  luftkvalitet:
-    build: .
-    ports:
-      - "${PORT:-3001}:3001"
-    environment:
-      - PORT=3001
-    restart: unless-stopped
