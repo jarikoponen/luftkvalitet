@@ -1,3 +1,12 @@
+import { useEffect, useRef } from "react";
+
+const birds = [
+  { path: "M0,-3 Q6,-9 12,-3 Q18,-9 24,-3", cx: 12, values: "120,190;190,175;120,190", dur: "13s" },
+  { path: "M0,-2 Q4,-7 8,-2 Q12,-7 16,-2", cx: 8, values: "170,210;220,200;170,210", dur: "15s" },
+  { path: "M0,-2.5 Q5,-8 10,-2.5 Q15,-8 20,-2.5", cx: 10, values: "920,140;980,128;920,140", dur: "11s" },
+  { path: "M0,-2 Q4,-7 8,-2 Q12,-7 16,-2", cx: 8, values: "600,160;650,148;600,160", dur: "12s" },
+];
+
 function Cyclist({ x, color = "#c4b5fd", dir = 1 }) {
   const s = dir === -1 ? `translate(${x}, 0) scale(-1,1) translate(${-x}, 0)` : undefined;
   return (
@@ -22,7 +31,38 @@ function Cyclist({ x, color = "#c4b5fd", dir = 1 }) {
 }
 
 export default function PageBackground() {
+  const birdRefs = useRef([]);
+
+  useEffect(() => {
+    function handleClick(e) {
+      birdRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const pad = 15;
+        if (
+          e.clientX >= rect.left - pad && e.clientX <= rect.right + pad &&
+          e.clientY >= rect.top - pad && e.clientY <= rect.bottom + pad
+        ) {
+          const ns = "http://www.w3.org/2000/svg";
+          const poop = document.createElementNS(ns, "ellipse");
+          poop.setAttribute("cx", birds[i].cx);
+          poop.setAttribute("cy", "0");
+          poop.setAttribute("rx", "1.5");
+          poop.setAttribute("ry", "2");
+          poop.setAttribute("fill", "#8B4513");
+          poop.setAttribute("stroke", "none");
+          poop.style.animation = "poopFall 1.5s forwards";
+          el.appendChild(poop);
+          setTimeout(() => poop.remove(), 1600);
+        }
+      });
+    }
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+
   return (
+    <>
     <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
       <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" style={{ position: "absolute", width: "100%", height: "100%", minHeight: "100vh" }}>
         <defs>
@@ -106,14 +146,6 @@ export default function PageBackground() {
             <ellipse cx="1055" cy="168" rx="44" ry="17" fill="white" />
             <animateTransform attributeName="transform" type="translate" values="0,0;-20,0;0,0" dur="42s" repeatCount="indefinite" />
           </g>
-        </g>
-
-        {/* Birds */}
-        <g stroke="#1e3a5f" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5">
-          <g><path d="M0,-3 Q6,-9 12,-3 Q18,-9 24,-3" /><animateTransform attributeName="transform" type="translate" values="120,190;190,175;120,190" dur="13s" repeatCount="indefinite" /></g>
-          <g><path d="M0,-2 Q4,-7 8,-2 Q12,-7 16,-2" /><animateTransform attributeName="transform" type="translate" values="170,210;220,200;170,210" dur="15s" repeatCount="indefinite" /></g>
-          <g><path d="M0,-2.5 Q5,-8 10,-2.5 Q15,-8 20,-2.5" /><animateTransform attributeName="transform" type="translate" values="920,140;980,128;920,140" dur="11s" repeatCount="indefinite" /></g>
-          <g><path d="M0,-2 Q4,-7 8,-2 Q12,-7 16,-2" /><animateTransform attributeName="transform" type="translate" values="600,160;650,148;600,160" dur="12s" repeatCount="indefinite" /></g>
         </g>
 
         {/* Far hills */}
@@ -394,6 +426,16 @@ export default function PageBackground() {
           <path d="M650,270 Q690,264 730,270"><animateTransform attributeName="transform" type="translate" values="0,0;50,0;0,0" dur="6s" repeatCount="indefinite" /></path>
           <path d="M1000,330 Q1040,324 1080,330 Q1100,324 1120,330"><animateTransform attributeName="transform" type="translate" values="0,0;40,0;0,0" dur="8s" repeatCount="indefinite" /></path>
         </g>
+
+        {/* Birds */}
+        <g stroke="#1e3a5f" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5">
+          {birds.map((bird, i) => (
+            <g key={i} ref={(el) => (birdRefs.current[i] = el)}>
+              <path d={bird.path} />
+              <animateTransform attributeName="transform" type="translate" values={bird.values} dur={bird.dur} repeatCount="indefinite" />
+            </g>
+          ))}
+        </g>
       </svg>
 
       <div style={{
@@ -402,5 +444,6 @@ export default function PageBackground() {
         pointerEvents: "none",
       }} />
     </div>
+    </>
   );
 }
